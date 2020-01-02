@@ -53,9 +53,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.myViewHolder
         GroupDataModel groupDataModel = groupDataModels.get(position);
 
         holder.tvGroupName.setText(groupDataModels.get(position).getGroupName());
-
+        holder.tvGroupNum.setText(groupDataModels.get(position).getGroupContactNum());
         String strgroup = groupDataModels.get(position).getGroupName();
-        Toast.makeText(context, strgroup, Toast.LENGTH_SHORT).show();
+        contactCurd.getItemCount(strgroup);
+
         holder.cardViewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,22 +98,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.myViewHolder
                     }
                 });
                 dialog.show();
-//                        dialog.setMessage("Are you sure you want to Exit?");
 
-//                dialog.setPositiveButton("Show Contact", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        context.startActivity(new Intent(context, GroupContactActivity.class));
-//                    }
-//                });
-//                dialog.setNegativeButton("Delete Group", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        contactCurd.deleteGroup(strgroup);
-//                        ((Activity)context).finish();
-//                    }
-//                });
-//                dialog.show();
+
                 return false;
             }
         });
@@ -168,7 +155,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.myViewHolder
             cardViewGroup = itemView.findViewById(R.id.cardViewGroup);
             tvGroupName = itemView.findViewById(R.id.tvGroupName);
             tvGroupNum = itemView.findViewById(R.id.groupNum);
-
         }
     }
 }

@@ -11,4 +11,14 @@
         android:layout_height="match_parent"
         android:id="@+id/recyclerViewnewMember"
         />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/addNewMemberCiv"
+        android:src="@drawable/tickkkk"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="40dp"
+        />
 </RelativeLayout>

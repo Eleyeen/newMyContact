@@ -8,11 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.example.mycontacts.adapters.ContactAdapter;
 import com.example.mycontacts.dataBase.ContactCurd;
 import com.example.mycontacts.dataModel.AllContactDataModel;
 import com.example.mycontacts.dataModel.ContactDataModel;
+import com.example.mycontacts.ui.fragments.AddContactFragment;
 import com.example.mycontacts.utils.PermissionUtills;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,6 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewMemberActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,6 +48,8 @@ public class NewMemberActivity extends AppCompatActivity implements View.OnClick
     public static ContactAdapter adapter;
     @BindView(R.id.recyclerViewnewMember)
     RecyclerView recyclerViewContact;
+    @BindView(R.id.addNewMemberCiv)
+    CircleImageView addNewMemberCiv;
     List<AllContactDataModel> allContactDataModels = new ArrayList<>();
     ContactCurd contactCurd;
     public static boolean aBooleanResfreshAdapter = false;
@@ -77,6 +84,7 @@ public class NewMemberActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initUI() {
+        addNewMemberCiv.setOnClickListener(this);
         modelList = new ArrayList<>();
         recyclerViewContact.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewContact.setHasFixedSize(true);
@@ -135,9 +143,34 @@ public class NewMemberActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnAddGroup:
+            case R.id.addNewMemberCiv:
 
-                startActivity(new Intent(this, GroupNameSetActivity.class));
+                 SharedPreferences sharedPreferences = getSharedPreferences("abcd", Context.MODE_PRIVATE);
+                String strGroupName = sharedPreferences.getString("ide", "");
+
+
+
+                if (strGroupName.equals("")) {
+                    Toast.makeText(this, "Select Number", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    AddContactFragment.aBooleanResfreshAdapter = true;
+
+                    for (int i = 0; i < ContactAdapter.stringArrayListContactNumber.size(); i++) {
+
+                        String strContactName = ContactAdapter.stringArrayListContactName.get(i);
+                        String strContactNumber = ContactAdapter.stringArrayListContactNumber.get(i);
+                        contactCurd.insertContact(this, strGroupName, strContactName, strContactNumber);
+                        Log.d("insertContact", strContactName);
+                        Log.d("insertContact", strGroupName);
+                        if (i == ContactAdapter.integersArrayListSelectedContactPosition.size()) {
+                            finish();
+                            Intent intent = new Intent(NewMemberActivity.this,GroupContactActivity.class);
+                            startActivity(intent);
+                            Toast.makeText(this, strContactName, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
                 break;
         }
     }

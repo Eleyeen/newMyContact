@@ -182,16 +182,12 @@ public class ContactCurd {
         }
     }
 
-    public void addNewMemberToGroup( String strContactName ,String strContactNumber){
-        String whereClause = "CONTACT_NAME = '" + strContactName + "'";
-
-        ContentValues values = new ContentValues();
-        values.put("CONTACT_NAME", strContactName);
-        values.put("CONTACT_NUMBER", strContactNumber);
-        this.database.update("CONTACT_TABLE", values, whereClause, null);
-
-        Toast.makeText(context, strContactName + " Saved", Toast.LENGTH_SHORT).show();
-
+    public int getItemCount(String strGRoupName) {
+        String countQuery = "SELECT  * FROM GROUP_TABLE WHERE CONTACT_GROUP_NAME = '" + strGRoupName + "' ";
+        Cursor cursor = database.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 
 }

@@ -59,25 +59,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
 
         holder.nameContact.setText(contactDataModel.getNameContact());
         holder.numberContact.setText(contactDataModel.getNumContact());
-//        holder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                contact.startActivity(new Intent(contact, MessagesActivity.class));
-//
-//                SharedPreferences sharedPreferences = contact.getSharedPreferences("abc", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString("id", contactDataModel.getNumContact());
-//                editor.apply();
-//
-//                SharedPreferences sharedPreferences1 = contact.getSharedPreferences("contactName", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-//                editor1.putString("ida", contactDataModel.getNameContact());
-//                editor1.apply();
-//            }
-//
-//        });
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

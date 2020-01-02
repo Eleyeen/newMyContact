@@ -46,9 +46,9 @@ public class MessagesActivity extends AppCompatActivity {
 
 
 
-        int titleId = getResources().getIdentifier("action_bar_title", "id", getPackageName());
-        TextView abTitle = (TextView) findViewById(titleId);
-        abTitle.setTextColor(getResources().getColor(R.color.blackLight));
+//        int titleId = getResources().getIdentifier("action_bar_title", "id", getPackageName());
+//        TextView abTitle = (TextView) findViewById(titleId);
+//        abTitle.setTextColor(getResources().getColor(R.color.blackLight));
 
         sharedPreferences = getSharedPreferences("abcdef", Context.MODE_PRIVATE);
         String number = sharedPreferences.getString("iddd", "");
