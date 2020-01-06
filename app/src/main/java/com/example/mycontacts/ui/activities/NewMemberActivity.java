@@ -151,7 +151,7 @@ public class NewMemberActivity extends AppCompatActivity implements View.OnClick
 
 
                 if (strGroupName.equals("")) {
-                    Toast.makeText(this, "Select Number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
                 } else {
 
                     AddContactFragment.aBooleanResfreshAdapter = true;

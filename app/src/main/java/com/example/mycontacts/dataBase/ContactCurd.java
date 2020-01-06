@@ -22,7 +22,6 @@ public class ContactCurd {
         ContactDataBase dbContactDataBase = new ContactDataBase(context);
         database = dbContactDataBase.getWritableDatabase();
         this.context = context;
-
     }
 
     public void insertGroupName(String strGroupName, Context context) {
@@ -94,7 +93,6 @@ public class ContactCurd {
 
         }
     }
-
     public List<AllContactDataModel> GetAllContact() {
         List<AllContactDataModel> list = new ArrayList<>();
 
@@ -125,7 +123,6 @@ public class ContactCurd {
         }
         return list;
     }
-
     public List<GroupDataModel> getGroupContact(String strGroupName, Context context) {
         List<GroupDataModel> list = new ArrayList<>();
 

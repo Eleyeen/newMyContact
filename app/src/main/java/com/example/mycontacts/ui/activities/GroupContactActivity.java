@@ -90,7 +90,7 @@ public class GroupContactActivity extends AppCompatActivity {
 
             case R.id.add_new_member:
 
-                Intent intent = new Intent(GroupContactActivity.this,NewMemberActivity.class);
+                Intent intent = new Intent(GroupContactActivity.this,CustomNewMemberActivity.class);
                 startActivity(intent);
                 break;
 

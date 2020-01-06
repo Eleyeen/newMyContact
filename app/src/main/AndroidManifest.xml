@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.NewMemberActivity"></activity>
+        <activity android:name=".ui.activities.CustomNewMemberActivity"></activity>
+        <activity android:name=".ui.activities.NewMemberActivity" />
         <activity android:name=".ui.activities.GroupContactActivity" />
         <activity android:name=".ui.activities.GroupNameSetActivity" />
         <activity android:name=".ui.activities.GroupMessageActivity" />
