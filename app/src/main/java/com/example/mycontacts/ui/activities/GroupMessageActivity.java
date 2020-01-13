@@ -19,6 +19,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GroupMessageActivity extends AppCompatActivity {
+     int  i ;
 
     SharedPreferences sharedPreferences;
     private boolean validGroup = false;
@@ -94,13 +96,14 @@ public class GroupMessageActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
 
 
-                try {
-                    SmsManager smsMgrVar = SmsManager.getDefault();
-                    smsMgrVar.sendTextMessage(phone, null, msg, null, null);
-                    Toast.makeText(getApplicationContext(), "Message Sent",
-                            Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(this, phone, Toast.LENGTH_SHORT).show();
+                try {
+
+//                    SmsManager smsMgrVar = SmsManager.getDefault();
+//                    smsMgrVar.sendTextMessage(phone, null, msg, null, null);
+
+                    sendSMSNew(phone,msg);
+
 
                 } catch (Exception ErrVar) {
                     Toast.makeText(getApplicationContext(), "ERROR",
@@ -126,6 +129,10 @@ public class GroupMessageActivity extends AppCompatActivity {
                 new Intent(DELIVERED), 0);
 
         //---when the SMS has been sent---
+        i = groupDataModels.size();
+        do{
+
+
 
         registerReceiver(new BroadcastReceiver(){
             @Override
@@ -135,6 +142,11 @@ public class GroupMessageActivity extends AppCompatActivity {
                     case Activity.RESULT_OK:
                         Toast.makeText(getBaseContext(), "SMS sent",
                                 Toast.LENGTH_SHORT).show();
+                          i++;
+
+                        if(groupDataModels!= null){
+                            Toast.makeText(arg0,String.valueOf(groupDataModels.size())+ "  " + groupDataModels.get(0).getGroupContactNum(), Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         Toast.makeText(getBaseContext(), "Generic failure",
@@ -174,9 +186,8 @@ public class GroupMessageActivity extends AppCompatActivity {
             }
         }, new IntentFilter(DELIVERED));
 
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
-    }
+        }while (i<=groupDataModels.size());
+        }
     public void customActionBar() {
         sharedPreferences = getSharedPreferences("abcd", Context.MODE_PRIVATE);
         String groupName = sharedPreferences.getString("ide", "");
@@ -220,4 +231,87 @@ public class GroupMessageActivity extends AppCompatActivity {
         return false;
     }
 
+
+
+
+
+
+    public void sendSMSNew(String phoneNumber,String message) {
+        SmsManager smsManager = SmsManager.getDefault();
+
+
+        String SENT = "SMS_SENT";
+        String DELIVERED = "SMS_DELIVERED";
+
+        SmsManager sms = SmsManager.getDefault();
+        ArrayList<String> parts = sms.divideMessage(message);
+        int messageCount = parts.size();
+
+
+
+        Log.i("Message Count", "Message Count: " + messageCount);
+
+        ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
+        ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+
+        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
+        PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
+
+        for (int j = 0; j < messageCount; j++) {
+            sentIntents.add(sentPI);
+            deliveryIntents.add(deliveredPI);
+        }
+
+        // ---when the SMS has been sent---
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS sent",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        Toast.makeText(getBaseContext(), "Generic failure",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        Toast.makeText(getBaseContext(), "No service",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        Toast.makeText(getBaseContext(), "Null PDU",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        Toast.makeText(getBaseContext(), "Radio off",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(SENT));
+
+        // ---when the SMS has been delivered---
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS delivered",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Toast.makeText(getBaseContext(), "SMS not delivered",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(DELIVERED));
+
+        smsManager.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+//         sms.sendMultipartTextMessage(phoneNumber, null, parts, sentIntents, deliveryIntents);
+    }
 }
+
+

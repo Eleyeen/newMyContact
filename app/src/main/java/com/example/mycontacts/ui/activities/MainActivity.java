@@ -192,13 +192,12 @@ public class MainActivity extends AppCompatActivity {
 
                     if (isPermission) {
                         ViewPagerFunction();
-                        Toast.makeText(this, "Permission Granted, Now your application can access CONTACTS.", Toast.LENGTH_LONG).show();
                         isPermission = false;
                     }
 
                 } else {
 
-                    Toast.makeText(this, "Permission Canceled, Now your application cannot access CONTACTS.", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(this, "Permission Canceled, Now your application cannot access CONTACTS.", Toast.LENGTH_LONG).show();
 
                 }
                 break;

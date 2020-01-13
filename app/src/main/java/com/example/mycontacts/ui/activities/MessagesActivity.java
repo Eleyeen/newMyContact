@@ -50,14 +50,13 @@ public class MessagesActivity extends AppCompatActivity {
 //        TextView abTitle = (TextView) findViewById(titleId);
 //        abTitle.setTextColor(getResources().getColor(R.color.blackLight));
 
-        sharedPreferences = getSharedPreferences("abcdef", Context.MODE_PRIVATE);
-        String number = sharedPreferences.getString("iddd", "");
 
 
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                sharedPreferences = getSharedPreferences("abcdef", Context.MODE_PRIVATE);
+                String number = sharedPreferences.getString("iddd", "");
                 sentdSMS(number, msg);
                 isValid();
             }
