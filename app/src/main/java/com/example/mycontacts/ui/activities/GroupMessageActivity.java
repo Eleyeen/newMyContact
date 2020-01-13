@@ -126,6 +126,7 @@ public class GroupMessageActivity extends AppCompatActivity {
                 new Intent(DELIVERED), 0);
 
         //---when the SMS has been sent---
+
         registerReceiver(new BroadcastReceiver(){
             @Override
             public void onReceive(Context arg0, Intent arg1) {
